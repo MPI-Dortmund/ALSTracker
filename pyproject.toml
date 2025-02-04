@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "ALSTracker"
-version = "1.2.1"
+version = "1.2.1b1"
 authors = [
   { name="Thorsten Wagner", email="thorsten.wagner@mpi-dortmund.mpg.de" },
     { name="Markus Stabrin", email="markus.stabrin@mpi-dortmund.mpg.de" },
@@ -32,5 +32,5 @@ license = "MPL-2.0"
 license-files = ["LICENSE*"]
 
 [project.urls]
-Homepage = ""
-Issues = ""
+Homepage = "https://alstracker.mpi-dortmund.mpg.de/"
+Issues = "https://alstracker.mpi-dortmund.mpg.de/"
