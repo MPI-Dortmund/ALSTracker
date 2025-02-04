@@ -1,0 +1,36 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "ALSTracker"
+version = "1.2.1"
+authors = [
+  { name="Thorsten Wagner", email="thorsten.wagner@mpi-dortmund.mpg.de" },
+    { name="Markus Stabrin", email="markus.stabrin@mpi-dortmund.mpg.de" },
+]
+description = "Bayesian ALS Tracking and Phase Evaluation"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "pymc",
+    "bambi",
+    "statsmodels",
+    "numpy",
+    "pandas",
+    "markdown-pdf",
+    "matplotlib",
+    "seaborn"
+
+]
+
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Operating System :: OS Independent",
+]
+license = "MPL-2.0"
+license-files = ["LICENSE*"]
+
+[project.urls]
+Homepage = ""
+Issues = ""
