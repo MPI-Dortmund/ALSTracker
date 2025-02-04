@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "ALSTracker"
-version = "1.2.1b2"
+version = "1.2.1b3"
 authors = [
   { name="Thorsten Wagner", email="thorsten.wagner@mpi-dortmund.mpg.de" },
     { name="Markus Stabrin", email="markus.stabrin@mpi-dortmund.mpg.de" },
