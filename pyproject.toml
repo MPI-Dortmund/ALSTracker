@@ -1,10 +1,10 @@
 [build-system]
-requires = ["hatchling"]
-build-backend = "hatchling.build"
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
 
 [project]
 name = "ALSTracker"
-version = "1.2.1b1"
+version = "1.2.1b2"
 authors = [
   { name="Thorsten Wagner", email="thorsten.wagner@mpi-dortmund.mpg.de" },
     { name="Markus Stabrin", email="markus.stabrin@mpi-dortmund.mpg.de" },
@@ -28,8 +28,7 @@ classifiers = [
     "Programming Language :: Python :: 3",
     "Operating System :: OS Independent",
 ]
-license = "MPL-2.0"
-license-files = ["LICENSE*"]
+license = {file = "LICENSE"}
 
 [project.urls]
 Homepage = "https://alstracker.mpi-dortmund.mpg.de/"
