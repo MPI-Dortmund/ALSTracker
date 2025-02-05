@@ -28,7 +28,8 @@ dependencies = [
     "jinja2",
     "gunicorn",
     "python-multipart",
-    "uvicorn"
+    "uvicorn",
+    "openpyxl"
 
 ]
 
