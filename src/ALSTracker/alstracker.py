@@ -16,9 +16,11 @@ import seaborn as sns
 from markdown_pdf import MarkdownPdf, Section
 from scipy.stats import gaussian_kde
 
+from ._version import __version__ as VERSION
+
 sns.set(style="darkgrid", palette="muted")
 DAYS_PER_MONTH = 30.417
-VERSION = "1.2.1"
+#VERSION = "1.2.1"
 imgf = "png"
 DPI = None
 

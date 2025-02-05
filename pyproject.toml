@@ -25,7 +25,9 @@ dependencies = [
     "matplotlib",
     "seaborn",
     "fastapi",
+    "jinja2",
     "gunicorn",
+    "python-multipart",
     "uvicorn"
 
 ]

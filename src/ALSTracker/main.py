@@ -1,6 +1,7 @@
 import asyncio
 import concurrent
 import datetime
+import os
 import shutil
 from pathlib import Path
 from uuid import uuid4
@@ -12,6 +13,10 @@ from fastapi.responses import FileResponse, HTMLResponse
 from fastapi.templating import Jinja2Templates
 from starlette.status import HTTP_202_ACCEPTED
 
+from . import _version
+
+HERE = os.path.realpath(os.path.dirname(__file__))
+
 app = FastAPI()
 
 # Directory to store uploaded files and generated PDFs
@@ -19,14 +24,17 @@ upload_dir = Path("uploads")
 upload_dir.mkdir(exist_ok=True)
 
 # Initialize Jinja2 templates
-templates = Jinja2Templates(directory="templates")
-app.mount("/img", StaticFiles(directory="templates/img"), name="img")
-app.mount("/tools", StaticFiles(directory="templates/tools"), name="tools")
+templates = Jinja2Templates(directory=f"{HERE}/templates")
+app.mount("/img", StaticFiles(directory=f"{HERE}/templates/img"), name="img")
+app.mount("/tools", StaticFiles(directory=f"{HERE}/templates/tools"), name="tools")
 
 
 @app.get("/", response_class=HTMLResponse)
 async def read_root(request: Request):
-    return templates.TemplateResponse("index.html", {"request": request})
+    version = _version.version
+    last_update = datetime.datetime.fromtimestamp(os.stat(_version.__file__).st_ctime)
+    last_update = last_update.strftime("%Y-%m-%d")
+    return templates.TemplateResponse("index.html", {"request": request, "version": version, "last_update": last_update})
 
 
 async def _process_file(filepath, pdf_path, log_path):
