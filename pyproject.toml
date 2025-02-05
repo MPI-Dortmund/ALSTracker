@@ -4,14 +4,14 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "ALSTracker"
-version = "1.2.1b4"
+version = "1.2.1b6"
 authors = [
   { name="Thorsten Wagner", email="thorsten.wagner@mpi-dortmund.mpg.de" },
     { name="Markus Stabrin", email="markus.stabrin@mpi-dortmund.mpg.de" },
 ]
 description = "Bayesian ALS Tracking and Phase Evaluation"
 readme = "README.md"
-requires-python = "==3.12.*"
+requires-python = ">=3.11.11,<3.13"
 dependencies = [
     "pymc",
     "bambi",
