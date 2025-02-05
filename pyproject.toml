@@ -3,11 +3,11 @@ requires = ["setuptools>=61.0",  "wheel", "setuptools_scm"]
 build-backend = "setuptools.build_meta"
 
 [tool.setuptools_scm]
-write_to = "src/ALSTracker/_version.py"
+version_file = "src/ALSTracker/_version.py"
 
 [project]
 name = "ALSTracker"
-version = "1.2.1b6"
+dynamic = ["version"]
 authors = [
   { name="Thorsten Wagner", email="thorsten.wagner@mpi-dortmund.mpg.de" },
     { name="Markus Stabrin", email="markus.stabrin@mpi-dortmund.mpg.de" },
