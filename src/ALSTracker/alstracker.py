@@ -535,6 +535,7 @@ def add_traces_to_db(database, logger):
                     mask = mask & (dbdata["Date"] <= phs_end)
 
                 dfmasked = dbdata.loc[mask]
+                dfmasked["DateNum"] = dfmasked["DateNum"] - dfmasked["DateNum"].mean()
                 if len(dfmasked) < 2:
                     logger.append(
                         f"Not enough data to fit {measurement_name} ({valuename}, n={len(dfmasked['DateNum'])}) for phase '{phs_name}'"
@@ -551,8 +552,8 @@ def add_traces_to_db(database, logger):
                         "y": dfmasked[valuename].to_list(),
                     }
                 )
-                trace = glm_mcmc_inference(fitdf, priors=priors, itype=itype)
 
+                trace = glm_mcmc_inference(fitdf, priors=priors, itype=itype)
                 dbentry["trace"][phs_name] = (trace, dfmasked)
 
 
