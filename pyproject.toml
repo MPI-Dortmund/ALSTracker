@@ -14,7 +14,7 @@ authors = [
 ]
 description = "Bayesian ALS Tracking and Phase Evaluation"
 readme = "README.md"
-requires-python = ">=3.11.11,<3.13"
+requires-python = ">=3.11.9,<3.13"
 dependencies = [
     "pymc",
     "bambi",
