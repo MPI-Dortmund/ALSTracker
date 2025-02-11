@@ -545,9 +545,10 @@ def add_traces_to_db(database, logger):
                 )
                 priors = get_prior(measurement_name, logger)
 
+
                 fitdf = pd.DataFrame(
                     {
-                        "x": dfmasked["DateNum"].to_list(),
+                        "x": (dfmasked["DateNum"]-dfmasked["DateNum"].mean()).to_list(),
                         "y": dfmasked[valuename].to_list(),
                     }
                 )
