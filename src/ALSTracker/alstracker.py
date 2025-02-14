@@ -627,6 +627,8 @@ def get_mode(samples):
     mode_estimate = x[np.argmax(kde_values)]
     return mode_estimate
 
+def is_phase_exist(measurement_data, phase):
+    return phase in measurement_data[0]["trace"]
 
 def compare_intervention(database, measurement, reference_phase, intervention_phase):
     itype = database[measurement][0]["meta"]["Type"]
@@ -663,7 +665,7 @@ def compare_intervention(database, measurement, reference_phase, intervention_ph
 
 def make_intervention_plots(database, plot_dir):
     phases = [p[0] for p in database["Phases"]]
-    pairs = list(combinations(phases, 2))
+    cpairs = list(combinations(phases, 2))
 
     num_meas = len(database) - 1  # Excluding 'Phases' from measurements
 
@@ -674,9 +676,15 @@ def make_intervention_plots(database, plot_dir):
             continue
 
         itype = database[measurement_name][0]["meta"]["Type"]
+        pairs = []
+        for p1,p2 in cpairs:
+            if is_phase_exist(database[measurement_name],p1) and is_phase_exist(database[measurement_name],p2):
+                pairs.append((p1,p2))
 
         # Calculate the number of rows needed for the subplots
         num_pairs = len(pairs)
+        if num_pairs == 0:
+            continue
         num_cols = 2
         num_rows = (num_pairs + 1) // num_cols  # Ceiling division for rows required
 
@@ -690,7 +698,6 @@ def make_intervention_plots(database, plot_dir):
                 reference_phase=p1,
                 intervention_phase=p2,
             )
-
             ax = axes[idx]
             ax.hist(
                 diff,
