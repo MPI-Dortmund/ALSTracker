@@ -1,6 +1,6 @@
 # ALSTracker Technical Background
 
-This page is intendet for a readership with a technical background:
+This page is intendet for a readership with a technical background.
 
 ## Priors
 
