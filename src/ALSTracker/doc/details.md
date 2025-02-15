@@ -52,9 +52,9 @@ In Witzel et al [2] there is written:
 > The individual median longitudinal NfL change was close to zero (+1.4 pg/mL),	 with	 80%	 of	 the	 individual	 deviation	 from	 BL	 values	 found	 in	 a	        # range	 between	 −17.6 pg/mL	 (10th	 percentile)	 and +22.1 pg/mL	(90th	percentile),	and	half	of	the	values	even	in	a	 narrow	range between	−5.6 pg/mL	(25th	percentile)	and +14.2 pg/mL	 (75th	percentile).
 
 The individual median longitudinal NfL change was close to zero (+1.4 pg/mL). The IQR (from 25th to 75th percentile) is the range between −5.6 pg/mL and +14.2 pg/mL. 
-With that constrains,  Preliz shows that a Normal distribution with a sigma of 15 is good fit.
+With that constrains,  [Preliz](https://preliz.readthedocs.io/en/latest/index.html) shows that a Normal distribution with a sigma of 15 is good fit.
 
-Over all patients Median is 51.8. IQR is 35.5 to 85.9. With the constrains that 50% of the probability mass should be in the range of 35.5 and 85.9 and with a median of 51.8 Preliz shows that a Gamma distribution is good fit:
+Over all patients Median is 51.8. IQR is 35.5 to 85.9. With the constrains that 50% of the probability mass should be in the range of 35.5 and 85.9 and with a median of 51.8 [Preliz](https://preliz.readthedocs.io/en/latest/index.html) shows that a Gamma distribution is good fit:
 
 ![](img/prior_nfl.png)
 
