@@ -4,7 +4,7 @@ There are two mandatory sheets and as many measurement sheets as you like. The o
 
 ## Measurement sheets
 
-Create one sheet for each score you measure. The sheets for the ALSFRS-R score, the vital capacity score and Neurofilament light chain measurements are already given in the template. Please don't change their names as ALSTracker uses prior knowledge from the scientific literature for them. All other scores can be named arbitrarily.
+Create one sheet for each score you measure. The sheets for the ALSFRS-R score, the vital capacity score, Neurofilament light chain measurements and the grip strength are already given in the template. Please don't change their names they use prior knowledge from the scientific literature for them. All other scores can be named arbitrarily.
 
 The first column must be titled "Date" and contain the date of the measurement in the format DAY.MONTH.YEAR.
 
