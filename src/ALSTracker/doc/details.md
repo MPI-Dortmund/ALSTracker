@@ -27,7 +27,7 @@ slope_prior = bmb.Prior(
 
 ### Vital Capacity
 
-Same analysis as for the ALSFRS-R score I did for the forced vital capacity:
+Same analysis as for the ALSFRS-R score I did for the slopes of forced vital capacity:
 
 ![](img/prior_vc.png)
 
@@ -42,6 +42,26 @@ slope_prior = bmb.Prior(
     mu=0.0058026, 
     sigma=0.1149874
 )
+```
+
+### Grip strength
+
+Same analysis as for the ALSFRS-R score I did for the slopes of hand grip:
+
+![](img/prior_grip.png)
+
+I use the same distribution as prior for the slope.
+
+Here is the definition with [bambi](https://bambinos.github.io/bambi/):
+
+```python
+ slope_prior = bmb.Prior(
+    'SkewNormal', 
+    alpha=-3.485, 
+    mu=0.00406, 
+    sigma=0.042689
+)
+
 ```
 
 
