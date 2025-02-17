@@ -27,10 +27,20 @@ DPI = None
 
 def get_prior(measurement_name, logger):
     priors = None
+
+    if "Hand Grip" in measurement_name:
+        # fit by pro-act (-3.485702181069315, 0.004060413119629223, 0.04268958889342467)
+        slope_prior = bmb.Prior(
+            'SkewNormal', alpha=-3.485, mu=0.00406, sigma=0.042689
+        )
+
+        priors = {
+            "x": slope_prior,  # 'x' is the predictor variable (slope in y ~ x)
+        }
+        
     if "ALSFRS-R" in measurement_name:
         # Fitted parameters from pro-act (loss per day): (-5.462513259320875, -0.0025174662591182775, 0.0350512159471242)
         slope_prior = bmb.Prior(
-            # "Normal", mu=-1.02 / DAYS_PER_MONTH, sigma=2.3 / DAYS_PER_MONTH
             'SkewNormal', alpha=-5.46, mu=-0.00252, sigma=0.035
         )
 
