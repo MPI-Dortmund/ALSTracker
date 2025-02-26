@@ -33,9 +33,14 @@ def get_prior(measurement_name, logger):
         slope_prior = bmb.Prior(
             'SkewNormal', alpha=-3.485, mu=0.00406, sigma=0.042689
         )
+        #pz.HalfStudentT(nu=4.0, sigma=1)
+        sigma = bmb.Prior(
+            'HalfStudentT',nu=4,sigma=1.5
+        )
 
         priors = {
             "x": slope_prior,  # 'x' is the predictor variable (slope in y ~ x)
+            "sigma": sigma
         }
         
     if "ALSFRS-R" in measurement_name:
