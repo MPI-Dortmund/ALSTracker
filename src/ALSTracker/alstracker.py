@@ -108,7 +108,7 @@ def glm_mcmc_inference(df, iterations=10000, priors: dict = None, itype="S"):
     return trace
 
 
-def make_alldata_regr(measurement_name, all_data, ax1):
+def make_alldata_regr(all_data, ax1):
     dbentry = all_data
     valuename = dbentry["meta"]["Value"]
 
@@ -128,7 +128,12 @@ def make_alldata_regr(measurement_name, all_data, ax1):
         ax1.plot(dbdata["Date"], y_line, color="grey", alpha=0.07)
 
 
-def make_alldata_lvl(measurement_name, data, ax1):
+def make_alsfrs_prediction(data, logger):
+    path_to_reference = Path('mogp_reference_model.pkl')
+    reference_model = joblib.load(path_to_reference)
+    pass
+    
+def make_alldata_lvl(data, ax1):
     dbentry = data
     valuename = dbentry["meta"]["Value"]
 
@@ -232,10 +237,10 @@ def make_phase_plots(database, plot_dir, logger):
 
                 if phase == "All data":
                     if itype == "S":
-                        make_alldata_regr(measurement_name, dbentry, ax1)
+                        make_alldata_regr(dbentry, ax1)
 
                     elif itype == "L":
-                        make_alldata_lvl(measurement_name, dbentry, ax1)
+                        make_alldata_lvl(dbentry, ax1)
                     continue
 
                 trace, dbdata = dbentry["trace"][phase]
@@ -570,7 +575,18 @@ def read_database(db_pth, logger):
     max_date = datetime.min
     # Check if database is valid
     if "Meta" not in database:
-        raise Exception("No Meta Sheet found in database")
+        raise Exception("No 'Meta' Sheet found in database")
+
+    if "Other" not in database:
+        raise Exception("No 'Other' Sheet found in database. This is required as it contains the disease onset.")
+
+    onset=None
+    for _,r in database['Other'].iterrows():
+        if r['Information'] == 'Onset':
+            onset = r['Value']
+            
+    if onset is None:
+        raise Exception("Can't find 'Onset' date in sheet 'Other'")
 
     for rowindex, row in database["Meta"].iterrows():
         sheetname = row["Sheet"]
@@ -597,6 +613,14 @@ def read_database(db_pth, logger):
 
             # Required to do regression
             df["DateNum"] = df["Date"].map(dt.datetime.toordinal)
+            
+        if "Y_Since_Onset" not in df:
+            df = df.dropna()
+            yso = []
+            for di, d in enumerate(alsscore['data']['Date']):
+                yso.append((d-onset).days/365)
+            df["Y_Since_Onset"] = yso
+            
         try:
             row["Type"]
         except:
