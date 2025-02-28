@@ -24,6 +24,14 @@ One of your sheets must be called "Meta". It contains meta data about your measu
 - **Unit**: The unit of your "value". For ALSFRS-R it would be "points". For grip strength it would be "kg".
 - **Type**: Defines the type of analysis. "S" is for slope and therefore for measurements that decline over time, e.g "ALSFRS-R Score". "L" is for Level measurements. These tend to fluctuate around a constant level but might change their level during a treatment phase. An example would be "Neurofilament light chain".
 
+### Other
+This sheet contains arbitrary information that the ALSTracker needs. It must have the following columns:
+
+- **Name**: The name of the information you provide, e.g. "Onset".
+- **Value**: Value for the information, e.g. "01.01.2024".
+
+You have to define your disease onset date with the Name "Onset" and Value the onset date in format DAY.MONTH.YEAR.
+
 ### Phases
 
 This is not strictly mandatory. The script always calculates statistics for all data points. But at some point you might want to compare different phases, such as "Reference" vs. "TreatmentA".
