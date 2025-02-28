@@ -30,7 +30,7 @@ dependencies = [
     "python-multipart",
     "uvicorn",
     "openpyxl",
-    "mogp @ git+https://github.com/thorstenwagner/mogp.git@update"
+    "mogptw"
 
 ]
 
