@@ -11,6 +11,11 @@ import matplotlib.dates as mdates
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
+from pathlib import Path
+import joblib
+import mogp 
+
+
 import pymc as pm
 import seaborn as sns
 from markdown_pdf import MarkdownPdf, Section
@@ -20,9 +25,13 @@ from ._version import __version__ as VERSION
 
 sns.set(style="darkgrid", palette="muted")
 DAYS_PER_MONTH = 30.417
-#VERSION = "1.2.1"
 imgf = "png"
 DPI = None
+try:
+    MOGP_PTH = os.environ['ALSTRACKER_MOGP']
+except KeyError:
+    raise Exception("Environment variable 'ALSTRACKER_MOGP' is not set. Stop.")
+    
 
 
 def get_prior(measurement_name, logger):
@@ -128,10 +137,61 @@ def make_alldata_regr(all_data, ax1):
         ax1.plot(dbdata["Date"], y_line, color="grey", alpha=0.07)
 
 
-def make_alsfrs_prediction(data, logger):
-    path_to_reference = Path('mogp_reference_model.pkl')
+def make_alsfrs_prediction(data, logger, plot_dir):
+    logger.append(
+                        f"Predict ALSFRS-Score progression"
+                    )
+    path_to_reference = Path(MOGP_PTH)
     reference_model = joblib.load(path_to_reference)
-    pass
+
+    df = data['ALSFRS-R Score'][0]['data']
+    
+    # Filter rows where 'Y_Since_Onset' is greater than 0
+    filtered_df = df[df['Y_Since_Onset'] > 0]
+    
+    # Extract the relevant columns and convert them to numpy arrays
+    Xi_new = filtered_df['Y_Since_Onset'].values
+    Yi_new = filtered_df['Score'].values
+
+    cluster_list, cluster_ll = mogp.utils.rank_cluster_prediction(reference_model, Xi_new, Yi_new)
+
+    cl=[0,1,2]
+    col=['#fc8d62','#66c2a5','#8da0cb']
+
+    fig, ax = plt.subplots(figsize=(8,5))
+
+    # Plot GP model for selected cluster
+    alpha=0.2
+    alphal=1
+    
+    for ci, c in enumerate(cl):
+        cur_ll = cluster_ll[c]
+        if ci > 0:
+            alpha=0.1
+            alphal=0.5
+        _ = reference_model.obsmodel[cluster_list[c]].model.plot_confidence(ax=ax, label=None, color=col[ci],alpha=alpha)
+        _ = reference_model.obsmodel[cluster_list[c]].model.plot_mean(ax=ax, label=f'Progression prediction ({cur_ll*100:.0f}%)', color=col[ci], alpha=alphal)
+    
+    # Plot input new data
+    _ = ax.plot(Xi_new, Yi_new, 'o',  markerfacecolor='none' ,color='black', label='Input Data')
+    
+    # Format plot
+    _ = ax.set_xlim(0)
+    _ = ax.set_ylim(0,50)
+    _ = ax.set_xlabel("Years since onset")
+    _ = ax.set_ylabel("ALSFRS-R Score")
+    _ = ax.set_title("Progression prediction for the 3 most likely scenarios")
+    _ = ax.legend()
+    today = datetime.now()
+
+    fpth = os.path.join(
+                    plot_dir,
+                    today.strftime("%Y%m%d"),
+                    f"alsfrs_prediction.{imgf}",
+                )
+    fpth = fpth.replace(" ", "")
+    fig.savefig(fpth, dpi=DPI)
+    return fpth
     
 def make_alldata_lvl(data, ax1):
     dbentry = data
@@ -582,8 +642,8 @@ def read_database(db_pth, logger):
 
     onset=None
     for _,r in database['Other'].iterrows():
-        if r['Information'] == 'Onset':
-            onset = r['Value']
+        if r['Name'] == 'Onset':
+            onset = pd.to_datetime(r['Value'], format="%d.%m.%Y")
             
     if onset is None:
         raise Exception("Can't find 'Onset' date in sheet 'Other'")
@@ -617,7 +677,7 @@ def read_database(db_pth, logger):
         if "Y_Since_Onset" not in df:
             df = df.dropna()
             yso = []
-            for di, d in enumerate(alsscore['data']['Date']):
+            for di, d in enumerate(df['Date']):
                 yso.append((d-onset).days/365)
             df["Y_Since_Onset"] = yso
             
@@ -800,7 +860,7 @@ def make_intervention_plots(database, plot_dir):
     return figures
 
 
-def make_doc(pth, lines, slopes, comparisions={}, types={}, logger=None):
+def make_doc(pth, lines, slopes, comparisions={}, types={}, logger=None, **kwargs):
     pdf = MarkdownPdf(toc_level=2)
 
     pdf.add_section(
@@ -828,6 +888,13 @@ def make_doc(pth, lines, slopes, comparisions={}, types={}, logger=None):
             pdf.add_section(
                 Section(
                     f"### Estimated Rate during Phases \n\n ![]({slopes[measurement]})\n"
+                )
+            )
+
+            if measurement == "ALSFRS-R Score":
+                pdf.add_section(
+                Section(
+                    f"### Progression prediction \n\n ![]({kwargs['alsfrs_prediction']})\n"
                 )
             )
 
@@ -895,6 +962,8 @@ def run(input_file, pdf_file, log_file):
 
             logger.append("# 3/6 Make regression figures")
             line_figures = make_phase_plots(database, plot_dir, logger)
+            
+            alsfrs_prediction = make_alsfrs_prediction(database, logger, plot_dir)
 
             logger.append("# 4/6 Make slope distribution figures")
             slope_figures = make_regressions2(database, plot_dir)
@@ -915,7 +984,7 @@ def run(input_file, pdf_file, log_file):
                 itype = database[measurement_name][0]["meta"]["Type"]
                 types[measurement_name] = itype
             make_doc(
-                pdf_report, line_figures, slope_figures, compare_figures, types, logger
+                pdf_report, line_figures, slope_figures, compare_figures, types, logger, alsfrs_prediction=alsfrs_prediction
             )
 
             logger.append("# Copy pdf to final location")
