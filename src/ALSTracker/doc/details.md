@@ -52,14 +52,22 @@ Same analysis as for the ALSFRS-R score I did for the slopes of hand grip:
 
 I use the same distribution as prior for the slope.
 
+The measurement error `sigma` I modeled weakly-informative with HalfStudenT-distribution:
+
+![](img/prior_grip_sigma.png)
+
 Here is the definition with [bambi](https://bambinos.github.io/bambi/):
 
 ```python
- slope_prior = bmb.Prior(
+slope_prior = bmb.Prior(
     'SkewNormal', 
     alpha=-3.485, 
-    mu=0.00406, 
-    sigma=0.042689
+    mu=0.00406, sigma=0.042689
+)
+sigma = bmb.Prior(
+    'HalfStudentT',
+    nu=4,
+    sigma=1.5
 )
 
 ```
