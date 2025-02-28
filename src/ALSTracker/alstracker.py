@@ -338,7 +338,7 @@ def make_phase_plots(database, plot_dir, logger):
                         )
 
                 elif itype == "L":
-                    make_alldata_lvl(measurement_name, dbentry, ax1)
+                    make_alldata_lvl(dbentry, ax1)
 
                     ax2.scatter(dbdata["Date"], dbdata[valuename], color="black")
                     posterior_samples = trace.posterior.Intercept.to_numpy()[0]
