@@ -1,6 +1,6 @@
 # ALSTracker Excel file
 
-There are two mandatory sheets and as many measurement sheets as you like. The order of the sheets does not matter.
+There are three mandatory sheets and as many measurement sheets as you like. The order of the sheets does not matter.
 
 ## Measurement sheets
 
