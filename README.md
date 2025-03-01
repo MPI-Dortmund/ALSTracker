@@ -11,3 +11,5 @@ https://alstracker.mpi-dortmund.mpg.de/
 ```
 export ALSTRACKER_MOGP='path/to/model.pkl'
 ```
+
+Instructions are not yet complete.
