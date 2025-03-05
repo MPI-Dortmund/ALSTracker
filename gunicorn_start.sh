@@ -1,15 +1,15 @@
 #!/bin/bash
 
-RUN_DIR="${HOME}"
-MINICONDA_DIR=${HOME}/miniforge3
-VENV=alstracker
-export ALSTRACKER_MOGP=${HOME}/mogp_reference_model.pkl
+RUN_DIR="XXX_RUN_DIR_XXX"
+MINICONDA_DIR=XXX_MINIFORGE_XXX
+USER=XXX_USER_XXX
+GROUP=XXX_GROUP_XXX
+export ALSTRACKER_MOGP=XXX_MOGP_PKL_XXX
 
 cd $RUN_DIR
 
+VENV=alstracker
 NAME=ALS_Tracker
-USER=${USER}
-GROUP=$(id -gn ${GID})
 WORKERS=1
 WORKER_CLASS=uvicorn.workers.UvicornWorker
 BIND=unix:${RUN_DIR}/gunicorn.sock
