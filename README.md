@@ -28,5 +28,8 @@ https://alstracker.mpi-dortmund.mpg.de/
     - Make sure that the `XXX_LOG_DIR_XXX` directory is writable for the `www-data` group.
 15. Copy or link the `nginx.template` to `/etc/nginx/sites-enabled`
     - `sudo ln -s $(realpath nginx.template) /etc/nginx/sites-enabled/als_tracker.site`
+16. Get a certificate for the SERVERNAME (This should alter your als_tracker.site file)
+    - `sudo snap install certbot`
+    - `sudo certbot --nginx`
 16. Restart nginx
     - `sudo systemctl restart nginx`
