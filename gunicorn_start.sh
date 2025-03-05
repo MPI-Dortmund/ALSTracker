@@ -1,6 +1,6 @@
 #!/bin/bash
 
-RUN_DIR="${PWD}"
+RUN_DIR="${HOME}"
 MINICONDA_DIR=${HOME}/miniforge3
 VENV=alstracker
 export ALSTRACKER_MOGP=${HOME}/mogp_reference_model.pkl
