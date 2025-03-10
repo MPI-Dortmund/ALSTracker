@@ -660,7 +660,7 @@ def read_database(db_pth, logger):
             )
 
         if "DateNum" not in df:
-            df = df.dropna(subset=['Date',row["value"]])
+            df = df.dropna(subset=['Date',row["Value"]])
 
             # Convert the 'Date' column to datetime format
             df["Date"] = pd.to_datetime(df["Date"], format="%d.%m.%Y")
@@ -674,7 +674,7 @@ def read_database(db_pth, logger):
             df["DateNum"] = df["Date"].map(dt.datetime.toordinal)
             
         if "Y_Since_Onset" not in df:
-            df = df.dropna(subset=['Date',row["value"]])
+            df = df.dropna(subset=['Date',row["Value"]])
             yso = []
             for di, d in enumerate(df['Date']):
                 yso.append((d-onset).days/365)
